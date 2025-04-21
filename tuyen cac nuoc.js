@@ -1,25 +1,43 @@
-etCollection("TuyenCacNuoc").drop();
+use worldcup2026
 
-db.TuyenCacNuoc.insertMany([
-  { "ten": "Việt Nam", "khuvuc": "Đông Nam Á", "chauluc": "Châu Á" },
-  { "ten": "Thái Lan", "khuvuc": "Đông Nam Á", "chauluc": "Châu Á" },
-  { "ten": "Indonesia", "khuvuc": "Đông Nam Á", "chauluc": "Châu Á" },
-  { "ten": "Pháp", "khuvuc": "Tây Âu", "chauluc": "Châu Âu" },
-  { "ten": "Đức", "khuvuc": "Tây Âu", "chauluc": "Châu Âu" },
-  { "ten": "Nigeria", "khuvuc": "Tây Phi", "chauluc": "Châu Phi" },
-  { "ten": "Brazil", "khuvuc": "Nam Mỹ", "chauluc": "Châu Mỹ" },
-  { "ten": "Argentina", "khuvuc": "Nam Mỹ", "chauluc": "Châu Mỹ" },
-  { "ten": "Úc", "khuvuc": "Châu Đại Dương", "chauluc": "Châu Úc" },
-  { "ten": "New Zealand", "khuvuc": "Châu Đại Dương", "chauluc": "Châu Úc" }
-]);
+db.createCollection("quocgia")
+db.createCollection("doibong")
+db.createCollection("trandau")
+db.createCollection("duDoan")
+db.createCollection("user")
 
-db.TuyenCacNuoc.updateMany(
+db.quocgia.insertMany([
+  { maQG: "QG01", tenQG: "Argentina" },
+  { maQG: "QG02", tenQG: "Pháp" },
+  { maQG: "QG03", tenQG: "Brazil" }
+])
+
+db.doibong.insertMany([
+  { maDB: "DB01", tenDB: "Argentina", maQG: "QG01" },
+  { maDB: "DB02", tenDB: "Pháp", maQG: "QG02" },
+  { maDB: "DB03", tenDB: "Brazil", maQG: "QG03" }
+])
+
+db.user.insertMany([
+  { maUser: "U01", tenUser: "Nguyen Van A" },
+  { maUser: "U02", tenUser: "Le Thi B" }
+])
+
+db.trandau.insertMany([
+  { maTD: "TD01", doi1: "Argentina", doi2: "Pháp", tiSo: "2-1" },
+  { maTD: "TD02", doi1: "Brazil", doi2: "Pháp", tiSo: "1-3" }
+])
+
+db.duDoan.insertMany([
+  { maDD: "DD01", maUser: "U01", tranDau: "TD01", duDoanTiSo: "2-1" },
+  { maDD: "DD02", maUser: "U02", tranDau: "TD02", duDoanTiSo: "1-2" }
+])
+
+db.doibong.updateMany(
   {},
-  [{ $set: { ten: { $concat: ["Tuyển ", "$ten"] } } }]
-);
+  [
+    { $set: { tenDB: { $concat: [ "Tuyển ", "$tenDB" ] } } }
+  ]
+)
 
-print("=== Các tuyển quốc gia ở Đông Nam Á ===");
-db.TuyenCacNuoc.find({ khuvuc: "Đông Nam Á" }).forEach(doc => printjson(doc));
-
-print("\n=== Các tuyển quốc gia ở Châu Âu ===");
-db.TuyenCacNuoc.find({ chauluc: "Châu Âu" }).forEach(doc => printjson(doc));
+db.doibong.find()
